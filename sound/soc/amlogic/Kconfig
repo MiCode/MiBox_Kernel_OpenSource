@@ -1,0 +1,37 @@
+#
+# Amlogic SoC audio configuration
+#
+
+menuconfig AMLOGIC_SND_SOC
+	bool "Amlogic ASoC"
+	default n
+	help
+	  Say Y or M if you want to add support for codecs attached to
+	  the Amlogic Asoc interface. You will also need
+	  to select the audio interfaces to support below.
+
+if AMLOGIC_SND_SOC
+
+config AMLOGIC_SND_SOC_MESON
+	bool "Amlogic Meson Asoc"
+	depends on AMLOGIC_SND_SOC
+	default n
+	help
+	  Say Y or M if you want to add support for meson arch to the
+	  Amlogic Asoc Interface. it is for old audio arch, less than
+	  kernel4.9.
+
+config AMLOGIC_SND_SOC_AUGE
+	bool "Amlogic Auge Asoc"
+	depends on AMLOGIC_SND_SOC
+	default n
+	help
+	  Say Y or M if you want to add support for audio arch Auge
+	  to the Amlogic Asoc Interface. it is a new audio arch to
+	  distinguish Meson audio arch. it is base on kernel 4.9
+
+# All the supported SoCs
+source "sound/soc/amlogic/meson/Kconfig"
+source "sound/soc/amlogic/auge/Kconfig"
+
+endif # AMLOGIC_SND_SOC

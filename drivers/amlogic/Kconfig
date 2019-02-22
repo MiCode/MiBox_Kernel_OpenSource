@@ -1,0 +1,122 @@
+#
+# Amlogic driver configuration
+#
+config AMLOGIC_DRIVER
+	bool "Amlogic Peripheral drivers"
+	default n
+	help
+		this option is provided for control amlogic
+		drivers, if you want to use amlogic driver
+		please open it
+
+config AMLOGIC_MODIFY
+	bool "Amlogic modify for kernel code"
+	default n
+	help
+		this option is set up for AMLOGIC modify of
+		standard kernel source code. All modify of kernel
+		standard code should be wrapped by this config
+
+if AMLOGIC_DRIVER
+menu "Amlogic Device Drivers"
+
+source "drivers/amlogic/cpufreq/Kconfig"
+
+source "drivers/amlogic/uart/Kconfig"
+
+source "drivers/amlogic/iomap/Kconfig"
+
+source "drivers/amlogic/pinctrl/Kconfig"
+
+source "drivers/amlogic/usb/Kconfig"
+
+source "drivers/amlogic/i2c/Kconfig"
+
+source "drivers/amlogic/spicc/Kconfig"
+
+source "drivers/amlogic/secmon/Kconfig"
+
+source "drivers/amlogic/cpu_version/Kconfig"
+
+source "drivers/amlogic/cpu_info/Kconfig"
+
+source "drivers/amlogic/mailbox/Kconfig"
+
+source "drivers/amlogic/reg_access/Kconfig"
+
+source "drivers/amlogic/clocksource/Kconfig"
+
+source "drivers/amlogic/clk/Kconfig"
+
+source "drivers/amlogic/crypto/Kconfig"
+
+source "drivers/amlogic/input/Kconfig"
+
+source "drivers/amlogic/efuse/Kconfig"
+
+source "drivers/amlogic/reboot/Kconfig"
+
+source "drivers/amlogic/ethernet/phy/Kconfig"
+
+source "drivers/amlogic/cpu_hotplug/Kconfig"
+
+source "drivers/amlogic/pwm/Kconfig"
+
+source "drivers/amlogic/media/Kconfig"
+
+source "drivers/amlogic/mmc/Kconfig"
+
+source "drivers/amlogic/mtd/Kconfig"
+
+source "drivers/amlogic/mtd_meson8b/Kconfig"
+
+source "drivers/amlogic/vrtc/Kconfig"
+
+source "drivers/amlogic/smartcard/Kconfig"
+
+source "drivers/amlogic/cec/Kconfig"
+
+source "drivers/amlogic/unifykey/Kconfig"
+
+source "drivers/amlogic/thermal/Kconfig"
+
+source "drivers/amlogic/audiodsp/Kconfig"
+
+source "drivers/amlogic/audioinfo/Kconfig"
+
+source "drivers/amlogic/pm/Kconfig"
+
+source "drivers/amlogic/led/Kconfig"
+
+source "drivers/amlogic/jtag/Kconfig"
+
+source "drivers/amlogic/watchdog/Kconfig"
+
+source "drivers/amlogic/esm/Kconfig"
+
+source "drivers/amlogic/wifi/Kconfig"
+
+source "drivers/amlogic/bluetooth/Kconfig"
+
+source "drivers/amlogic/dvb/Kconfig"
+
+source "drivers/amlogic/power/Kconfig"
+
+source "drivers/amlogic/pci/Kconfig"
+
+source "drivers/amlogic/irblaster/Kconfig"
+
+source "drivers/amlogic/iio/Kconfig"
+
+source "drivers/amlogic/ddr_window/Kconfig"
+
+source "drivers/amlogic/drm/Kconfig"
+
+source "drivers/amlogic/secure_monitor/Kconfig"
+
+source "drivers/amlogic/tee/Kconfig"
+
+source "drivers/amlogic/memory_ext/Kconfig"
+
+endmenu
+endif

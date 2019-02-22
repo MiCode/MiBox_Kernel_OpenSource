@@ -1,0 +1,19 @@
+#
+# Input device configuration
+#
+
+menuconfig AMLOGIC_INPUT
+	bool "Input Device Support"
+	default n
+	help
+	  "Input devices include keyboard, touchscreen, remote, sensor, etc."
+
+if AMLOGIC_INPUT
+
+source "drivers/amlogic/input/keyboard/Kconfig"
+
+source "drivers/amlogic/input/remote/Kconfig"
+
+source "drivers/amlogic/input/buttonslight/Kconfig"
+endif
+

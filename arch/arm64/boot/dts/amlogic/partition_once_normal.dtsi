@@ -1,0 +1,118 @@
+/*
+ * Amlogic partition set for normal
+ *
+ * Copyright (c) 2017-2017 Amlogic Ltd
+ * Copyright (C) 2018 XiaoMi, Inc.
+ *
+ * This file is licensed under a dual GPLv2 or BSD license.
+ *
+ */
+/ {
+    partitions: partitions{
+		parts = <16>;
+		part-0 = <&cache>;
+		part-1 = <&logo>;
+		part-2 = <&encrypt>;
+		part-3 = <&recovery>;
+		part-4 = <&tee>;
+		part-5 = <&crypt>;
+		part-6 = <&misc>;
+		part-7 = <&boot>;
+		part-8 = <&dto>;
+		part-9 = <&cri_data>;
+		part-10 = <&param>;
+		part-11 = <&rsv>;
+		part-12 = <&system>;
+		part-13 = <&oem>;
+		part-14 = <&vendor>;
+		part-15 = <&data>;
+		logo:logo{
+			pname = "logo";
+			size = <0x0 0x300000>;
+			mask = <1>;
+		};
+		encrypt:encrypt{
+			pname = "encrypt";
+			size = <0x0 0x100000>;
+			mask = <1>;
+		};
+		recovery:recovery{
+			pname = "recovery";
+			size = <0x0 0x2000000>;
+			mask = <1>;
+		};
+		tee:tee{
+			pname = "tee";
+			size = <0x0 0x800000>;
+			mask = <1>;
+		};
+		crypt:crypt{
+			pname = "crypt";
+			size = <0x0 0x2000000>;
+			mask = <1>;
+		};
+		misc:misc{
+			pname = "misc";
+			size = <0x0 0x2000000>;
+			mask = <1>;
+		};
+		boot:boot
+		{
+			pname = "boot";
+			size = <0x0 0x1400000>;
+			mask = <1>;
+		};
+		cache:cache
+		{
+			pname = "cache";
+			size = <0x0 0x10000000>;
+			mask = <2>;
+		};
+		dto:dto{
+			pname = "dto";
+			size = <0x0 0x800000>;
+			mask = <1>;
+		};
+		cri_data:cri_data
+		{
+			pname = "cri_data";
+			size = <0x0 0x800000>;
+			mask = <2>;
+		};
+		param:param{
+			pname = "param";
+			size = <0x0 0x1000000>;
+			mask = <2>;
+		};
+		rsv:rsv{
+			pname = "rsv";
+			size = <0x0 0x1000000>;
+			mask = <1>;
+		};
+		system:system
+		{
+			pname = "system";
+			size = <0x0 0x44c00000>;
+			mask = <1>;
+		};
+		oem:oem
+		{
+			pname = "oem";
+			size = <0x0 0x12c00000>;
+			mask = <1>;
+		};
+		vendor:vendor
+		{
+			pname = "vendor";
+			size = <0x0 0x6400000>;
+			mask = <1>;
+		};
+		data:data
+		{
+			pname = "data";
+			size = <0xffffffff 0xffffffff>;
+			mask = <4>;
+		};
+
+	};
+};/* end of / */

@@ -1,0 +1,282 @@
+/*
+ * arch/arm64/boot/dts/amlogic/axg_pxp.dts
+ *
+ * Copyright (C) 2017 Amlogic, Inc. All rights reserved.
+ *
+ * This program is free software; you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation; either version 2 of the License, or
+ * (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License for
+ * more details.
+ *
+ */
+
+/dts-v1/;
+
+#include "mesonaxg.dtsi"
+
+/ {
+	model = "Amlogic";
+	compatible = "amlogic, axg";
+	interrupt-parent = <&gic>;
+	#address-cells = <2>;
+	#size-cells = <2>;
+
+	aliases {
+		serial0 = &uart_AO;
+	};
+
+	memory@00000000 {
+		device_type = "memory";
+		linux,usable-memory = <0x0 0x100000 0x0 0x3ff00000>;
+	};
+
+	reserved-memory {
+		#address-cells = <2>;
+		#size-cells = <2>;
+		ranges;
+		/* global autoconfigured region for contiguous allocations */
+		secmon_reserved:linux,secmon {
+			compatible = "shared-dma-pool";
+			reusable;
+			size = <0x0 0x400000>;
+			alignment = <0x0 0x400000>;
+			alloc-ranges = <0x0 0x05000000 0x0 0x400000>;
+		};
+
+		secos_reserved:linux,secos {
+			status = "disable";
+			compatible = "amlogic, aml_secos_memory";
+			reg = <0x0 0x05300000 0x0 0x2000000>;
+			no-map;
+		};
+		fb_reserved:linux,meson-fb {
+			//compatible = "amlogic, fb-memory";
+			//reg = <0x0 0x3e000000 0x0 0x1f00000>;
+			compatible = "shared-dma-pool";
+			reusable;
+			size = <0x0 0x2000000>;
+			alignment = <0x0 0x400000>;
+			alloc-ranges = <0x0 0x3e000000 0x0 0x2000000>;
+		};
+	};
+
+
+
+	aml_sensor0: aml-sensor@0 {
+		compatible = "amlogic, aml-thermal";
+		device_name = "thermal";
+		#thermal-sensor-cells = <1>;
+		cooling_devices {
+			cpufreq_cool_cluster0 {
+				min_state = <1000000>;
+				dyn_coeff = <140>;
+				cluster_id = <0>;
+				node_name = "cpufreq_cool0";
+				device_type = "cpufreq";
+			};
+			cpucore_cool_cluster0 {
+				min_state = <1>;
+				dyn_coeff = <0>;
+				cluster_id = <0>;
+				node_name = "cpucore_cool0";
+				device_type = "cpucore";
+			};
+		};
+		cpufreq_cool0:cpufreq_cool0 {
+			#cooling-cells = <2>; /* min followed by max */
+		};
+		cpucore_cool0:cpucore_cool0 {
+			#cooling-cells = <2>; /* min followed by max */
+		};
+	};
+	thermal-zones {
+		soc_thermal {
+			polling-delay = <1000>;
+			polling-delay-passive = <100>;
+			sustainable-power = <1050>;
+
+			thermal-sensors = <&aml_sensor0 3>;
+
+			trips {
+				switch_on: trip-point@0 {
+					temperature = <70000>;
+					hysteresis = <1000>;
+					type = "passive";
+				};
+				control: trip-point@1 {
+					temperature = <80000>;
+					hysteresis = <1000>;
+					type = "passive";
+				};
+				hot: trip-point@2 {
+					temperature = <85000>;
+					hysteresis = <5000>;
+					type = "hot";
+				};
+				critical: trip-point@3 {
+					temperature = <260000>;
+					hysteresis = <1000>;
+					type = "critical";
+				};
+			};
+
+			cooling-maps {
+				cpufreq_cooling_map {
+					trip = <&control>;
+					cooling-device = <&cpufreq_cool0 0 4>;
+					contribution = <1024>;
+				};
+				cpucore_cooling_map {
+					trip = <&control>;
+					cooling-device = <&cpucore_cool0 0 3>;
+					contribution = <1024>;
+				};
+			};
+		};
+	};
+
+	pcie_A: pcie@f9800000 {
+		compatible = "amlogic, amlogic-pcie", "snps,dw-pcie";
+		reg = <0x0 0xf9800000 0x0 0x400000
+				0x0 0xff644000 0x0 0x2000
+				0x0 0xff646000 0x0 0x2000
+				0x0 0xffd01080 0x0 0x10
+				0x0 0xf9c00000 0x0 0x100000>;
+		reg-names = "elbi", "phy", "cfg", "reset", "config";
+		reset-gpio = <&gpio GPIOX_19 0>;
+		interrupts = <0 177 0>, <0 179 0>;
+		#interrupt-cells = <1>;
+		bus-range = <0x0 0xff>;
+		#address-cells = <3>;
+		#size-cells = <2>;
+		device_type = "pci";
+		ranges = <0x81000000 0 0	  0 0xf9d00000  0x0 0x10000
+			/*downstream I/O */
+			  0x82000000 0 0xf9d10000 0x0 0xf9d10000 0 0x002f0000>;
+			/* non-prefetchable memory */
+		num-lanes = <1>;
+		pcie-num = <1>;
+
+		//clocks = <&clkc CLKID_PCIE_REFPLL
+		//&clkc CLKID_PCIE_A>;
+		//clock-names = "pcie_refpll",
+		//		"pcie_a";
+
+		status = "disable";
+	};
+	pcie_B: pcie@fa000000 {
+		compatible = "amlogic, amlogic-pcie", "snps,dw-pcie";
+		reg = <0x0 0xfa000000 0x0 0x400000
+				0x0 0xff644000 0x0 0x2000
+				0x0 0xff648000 0x0 0x2000
+				0x0 0xffd01080 0x0 0x10
+				0x0 0xfa400000 0x0 0x100000>;
+		reg-names = "elbi", "phy-unuse", "cfg", "reset-unuse", "config";
+		interrupts = <0 167 0>, <0 169 0>;
+		#interrupt-cells = <1>;
+		bus-range = <0x0 0xff>;
+		#address-cells = <3>;
+		#size-cells = <2>;
+		device_type = "pci";
+		ranges = <0x81000000 0 0	  0  0xfa500000 0x0 0x10000
+			/* downstream I/O */
+			0x82000000 0 0xfa510000 0x0 0xfa510000 0 0x002f0000>;
+			/* non-prefetchable memory */
+		num-lanes = <1>;
+		pcie-num = <2>;
+
+		//clocks = <&clkc CLKID_PCIE_REFPLL
+		//	&clkc CLKID_PCIE_B>;
+		//clock-names = "pcie_refpll",
+		//	"pcie_b";
+
+		status = "disable";
+	};
+
+	vpu {
+		compatible = "amlogic, vpu";
+		dev_name = "vpu";
+		status = "ok";
+		clocks = <&clkc CLKID_VPU_MUX
+			&clkc CLKID_VAPB_MUX
+			&clkc CLKID_VPU_INTR>;
+		clock-names = "vpu_clk",
+			"vapb_clk",
+			"vpu_intr";
+		clk_level = <3>;
+		/* 0: 100.0M    1: 166.7M    2: 200.0M    3: 250.0M */
+	};
+
+	meson-fb {
+		compatible = "amlogic, meson-fb";
+		memory-region = <&fb_reserved>;
+		dev_name = "meson-fb";
+		status = "okay";
+		interrupts = <0 3 1
+			0 89 1>;
+		interrupt-names = "viu-vsync", "rdma";
+		mem_size = <0x006AF000 0x01851000 0x00000000>;
+		/* uboot logo,fb0/fb1 memory size */
+		display_mode_default = "1080p60hz";
+		scale_mode = <0>;
+		/** 0:VPU free scale 1:OSD free scale 2:OSD super scale */
+		display_size_default = <1920 1080 1920 3240 32>;
+		/*1920*1080*4*3 = 0x17BB000*/
+		logo_addr = "0x3e000000";
+		pxp_mode = <1>; /** 0:normal mode 1:pxp mode */
+	};
+
+	ge2d {
+		compatible = "amlogic, ge2d";
+		dev_name = "ge2d";
+		status = "okay";
+		interrupts = <0 150 1>;
+		interrupt-names = "ge2d";
+		clocks = <&clkc CLKID_VAPB_MUX>,
+			<&clkc CLKID_GE2D_GATE>,
+			<&clkc CLKID_G2D>;
+		clock-names = "clk_vapb_0",
+			"clk_ge2d",
+			"clk_ge2d_gate";
+		reg = <0x0 0xff940000 0x0 0x10000>;
+	};
+}; /* end of / */
+
+&spicc_a{
+	status = "disabled";
+	num_chipselect = <1>;
+	dma_en = <0>;
+	delay_control = <0x15>;
+	cs_delay = <10>;
+	enhance_dlyctl = <0>;
+};
+
+&spicc_b{
+	status = "disabled";
+	num_chipselect = <1>;
+	dma_en = <0>;
+	delay_control = <0x15>;
+	cs_delay = <10>;
+	enhance_dlyctl = <0>;
+};
+
+&aobus{
+	uart_AO: serial@3000 {
+		compatible = "amlogic, meson-uart";
+		reg = <0x0 0x3000 0x0 0x18>;
+		interrupts = <0 193 1>;
+		status = "okay";
+		clocks = <&xtal>;
+		clock-names = "clk_uart";
+		xtal_tick_en = <1>;
+		fifosize = < 64 >;
+		pinctrl-names = "default";
+		pinctrl-0 = <&ao_uart_pins>;
+		support-sysrq = <0>;	/* 0 not support , 1 support */
+	};
+};

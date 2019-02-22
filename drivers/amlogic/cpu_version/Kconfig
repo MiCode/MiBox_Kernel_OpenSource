@@ -1,0 +1,26 @@
+menuconfig AMLOGIC_CPU_VERSION
+    bool "Amlogic cpu version support"
+    default n
+    help
+      This is the Amlogic CPU version interface driver
+
+if AMLOGIC_CPU_VERSION
+
+config	AMLOGIC_MESON64_VERSION
+	bool "Amlogic Meson64 cpu version"
+	default n
+	help
+	  say y to enable
+	  Amlogic gx-X
+	  cpu version driver
+	  .
+
+config	AMLOGIC_M8B_MESON32_VERSION
+	bool "Amlogic M8b Meson32 cpu version"
+	default n
+	help
+	  say y to enable
+	  Amlogic M8b
+	  cpu version driver
+
+endif

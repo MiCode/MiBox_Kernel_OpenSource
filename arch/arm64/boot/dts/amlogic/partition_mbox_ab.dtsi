@@ -1,0 +1,119 @@
+/*
+ * Amlogic partition set for normal
+ *
+ * Copyright (c) 2017-2017 Amlogic Ltd
+ *
+ * This file is licensed under a dual GPLv2 or BSD license.
+ *
+ */
+/ {
+    partitions: partitions{
+		parts = <16>;
+		part-0 = <&logo>;
+		part-1 = <&boot_a>;
+		part-2 = <&misc>;
+		part-3 = <&dto>;
+		part-4 = <&cri_data>;
+		part-5 = <&param>;
+		part-6 = <&boot_b>;
+		part-7 = <&rsv>;
+		part-8 = <&tee>;
+		part-9 = <&vendor_a>;
+		part-10 = <&vendor_b>;
+		part-11 = <&odm_a>;
+		part-12 = <&odm_b>;
+		part-13 = <&system_a>;
+		part-14 = <&system_b>;
+		part-15 = <&data>;
+
+		logo:logo{
+			pname = "logo";
+			size = <0x0 0x800000>;
+			mask = <1>;
+		};
+		boot_a:boot_a{
+			pname = "boot_a";
+			size = <0x0 0x1000000>;
+			mask = <1>;
+		};
+		misc:misc{
+			pname = "misc";
+			size = <0x0 0x800000>;
+			mask = <1>;
+		};
+		dto:dto{
+			pname = "dto";
+			size = <0x0 0x800000>;
+			mask = <1>;
+		};
+		cri_data:cri_data
+		{
+			pname = "cri_data";
+			size = <0x0 0x800000>;
+			mask = <2>;
+		};
+		rsv:rsv{
+			pname = "rsv";
+			size = <0x0 0x1000000>;
+			mask = <1>;
+		};
+		param:param{
+			pname = "param";
+			size = <0x0 0x1000000>;
+			mask = <2>;
+		};
+		boot_b:boot_b
+		{
+			pname = "boot_b";
+			size = <0x0 0x1000000>;
+			mask = <1>;
+		};
+		tee:tee{
+			pname = "tee";
+			size = <0x0 0x2000000>;
+			mask = <1>;
+		};
+		vendor_a:vendor_a
+		{
+			pname = "vendor_a";
+			size = <0x0 0x10000000>;
+			mask = <1>;
+		};
+		vendor_b:vendor_b
+		{
+			pname = "vendor_b";
+			size = <0x0 0x10000000>;
+			mask = <1>;
+		};
+		odm_a:odm_a
+		{
+			pname = "odm_a";
+			size = <0x0 0x10000000>;
+			mask = <1>;
+		};
+		odm_b:odm_b
+		{
+			pname = "odm_b";
+			size = <0x0 0x10000000>;
+			mask = <1>;
+		};
+		system_a:system_a
+		{
+			pname = "system_a";
+			size = <0x0 0x74000000>;
+			mask = <1>;
+		};
+		system_b:system_b
+		{
+			pname = "system_b";
+			size = <0x0 0x74000000>;
+			mask = <1>;
+		};
+		data:data
+		{
+			pname = "data";
+			size = <0xffffffff 0xffffffff>;
+			mask = <4>;
+		};
+	};
+};/* end of / */

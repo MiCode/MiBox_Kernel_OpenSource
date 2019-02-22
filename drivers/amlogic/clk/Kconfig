@@ -1,0 +1,40 @@
+config AMLOGIC_CLK
+	bool "Amlogic clock driver  support"
+	depends on OF
+	select COMMON_CLK
+	help
+		This is the Amlogic Clock  driver
+		Say Y if you want peripherals
+		and CPU frequency scaling to work
+		.
+
+config AMLOGIC_RESET
+        bool "Meson Reset Driver"
+        default AMLOGIC_CLK
+        help
+		This enables the reset driver for Amlogic Meson SoCs.
+
+config AMLOGIC_COMMON_CLK_SCPI
+	tristate "Clock driver controlled via SCPI interface"
+	depends on ARM_SCPI_PROTOCOL || COMPILE_TEST
+	  ---help---
+	  This driver provides support for clocks that are controlled
+	  by firmware that implements the SCPI interface.
+
+	  This driver uses SCPI Message Protocol to interact with the
+	  firmware providing all the clock controls.
+
+config AMLOGIC_M8B_CLK
+	bool "Amlogic meson8b clock driver support"
+	depends on AMLOGIC_CLK
+	help
+	  Support for the clock controller on AmLogic S805 devices, aka
+	  meson8b. Say Y if you want peripherals and CPU frequency scaling to
+	  work.
+
+config AMLOGIC_GX_CLK
+	bool "Amlogic gx clock driver support"
+	depends on AMLOGIC_CLK
+	help
+	  Support for the clock controller on AmLogic S905 devices, aka gxbb.
+	  Say Y if you want peripherals and CPU frequency scaling to work.

@@ -1,0 +1,11 @@
+
+menu "Amlogic Buttonslight Support"
+
+config AMREMOTE_BUTTONSLIGHT
+	bool "Amlogic backlight support"
+	default n
+	help
+	  Say Y here if you want to use the Amlogic backlight management.
+
+
+endmenu
